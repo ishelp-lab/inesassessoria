@@ -138,6 +138,39 @@
   }
 
   function initMenus() {
+    // Garante que todo item com submenu tenha a setinha (.sub-arrow)
+    var parentLinks = document.querySelectorAll('.elementor-nav-menu .menu-item-has-children > a');
+    for (var p = 0; p < parentLinks.length; p++) {
+      var a = parentLinks[p];
+      if (!a.querySelector('.sub-arrow')) {
+        var arrow = document.createElement('span');
+        arrow.className = 'sub-arrow';
+        arrow.innerHTML = '<i class="fas fa-caret-down" aria-hidden="true"></i>';
+        a.appendChild(arrow);
+      }
+      a.classList.add('has-submenu');
+    }
+
+    // Hover com tolerância no desktop para não fechar ao mover o mouse para o dropdown
+    var parentItems = document.querySelectorAll('.elementor-nav-menu--layout-horizontal .menu-item-has-children');
+    for (var k = 0; k < parentItems.length; k++) {
+      (function (li) {
+        var closeTimer = null;
+        li.addEventListener('mouseenter', function () {
+          if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          li.classList.add('ines-submenu-open');
+        });
+        li.addEventListener('mouseleave', function () {
+          closeTimer = setTimeout(function () {
+            li.classList.remove('ines-submenu-open');
+          }, 180);
+        });
+      })(parentItems[k]);
+    }
+
     // Toggle de submenus no menu mobile / dropdown
     var subArrows = document.querySelectorAll('.elementor-nav-menu .sub-arrow, .elementor-nav-menu .menu-item-has-children > a');
     for (var i = 0; i < subArrows.length; i++) {

@@ -40,13 +40,43 @@ html.ines-modal-lock body {
   text-decoration: none;
 }
 
-/* Submenus no desktop (hover) e mobile (toggle JS) */
+/* Submenus no desktop (hover + ponte sobre margin-top) e mobile (toggle JS) */
 @media (min-width: 1025px) {
   .elementor-nav-menu--layout-horizontal .menu-item-has-children {
     position: relative;
   }
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children > a .sub-arrow {
+    margin-left: 6px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85em;
+  }
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children > .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 280px;
+    width: max-content;
+    max-width: 90vw;
+    z-index: 999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  }
+  /* Ponte invisível para cobrir o margin-top: 10px sem perder o hover */
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children > .sub-menu::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -16px;
+    height: 16px;
+    background: transparent;
+  }
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children > .sub-menu .elementor-sub-item {
+    white-space: nowrap;
+  }
   .elementor-nav-menu--layout-horizontal .menu-item-has-children:hover > .sub-menu,
-  .elementor-nav-menu--layout-horizontal .menu-item-has-children:focus-within > .sub-menu {
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children:focus-within > .sub-menu,
+  .elementor-nav-menu--layout-horizontal .menu-item-has-children.ines-submenu-open > .sub-menu {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
